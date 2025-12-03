@@ -10,7 +10,6 @@ def test_tasks_done_by_day_empty_then_done():
     assert db.list_tasks() == []
     t = Task(title="a")
     db.add_task(t)
-    # initially none done
     assert db.tasks_done_by_day() == []
     t.mark_done()
     db.update_task(t)

@@ -23,28 +23,23 @@ class ToDoApp(tk.Tk):
         self.geometry("1000x600")
         self.protocol("WM_DELETE_WINDOW", self.on_exit)
 
-        # Меню
         menubar = tk.Menu(self)
         filemenu = tk.Menu(menubar, tearoff=0)
         filemenu.add_command(label="Exit", command=self.on_exit)
         menubar.add_cascade(label="File", menu=filemenu)
         self.config(menu=menubar)
 
-        # DB
         self.db = DB(db_path)
 
-        # Layout: left - table, right - controls
         left = ttk.Frame(self)
         left.pack(side="left", fill="both", expand=True, padx=5, pady=5)
         right = ttk.Frame(self, width=320)
         right.pack(side="right", fill="y", padx=5, pady=5)
 
-        # Table
         self.table = TaskTable(left)
         self.table.pack(fill="both", expand=True)
         self.table.bind("<Double-1>", self.on_edit_selected)
 
-        # Controls on the right
         ttk.Label(right, text="New / Edit Task").pack(anchor="w")
         ttk.Label(right, text="Title:").pack(anchor="w", pady=(6,0))
         self.title_var = tk.StringVar()
@@ -68,7 +63,6 @@ class ToDoApp(tk.Tk):
         self.plot = ActivityPlot(right, self.db)
         self.plot.pack(fill="both", expand=False)
 
-        # Status bar / log display (simple)
         self.status = tk.StringVar()
         ttk.Label(self, textvariable=self.status, relief="sunken", anchor="w").pack(side="bottom", fill="x")
 
@@ -114,7 +108,6 @@ class ToDoApp(tk.Tk):
         if not task:
             messagebox.showerror("Error", "Task not found.")
             return
-        # popup edit window
         def save_changes():
             new_title = title_var.get().strip()
             new_desc = desc_box.get("1.0", "end").strip()
